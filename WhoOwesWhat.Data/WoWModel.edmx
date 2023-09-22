@@ -1,0 +1,452 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="WoWModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="WoWModelStoreContainer">
+    <EntitySet Name="PersonSet" EntityType="WoWModel.Store.PersonSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PostSet" EntityType="WoWModel.Store.PostSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GroupSet" EntityType="WoWModel.Store.GroupSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustomerSet" EntityType="WoWModel.Store.CustomerSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Version4" EntityType="WoWModel.Store.Version4" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustomerSet_Payer" EntityType="WoWModel.Store.CustomerSet_Payer" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustomerSet_Consumer" EntityType="WoWModel.Store.CustomerSet_Consumer" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="PersonCustomer" Association="WoWModel.Store.PersonCustomer">
+      <End Role="Person" EntitySet="PersonSet" />
+      <End Role="Customer" EntitySet="CustomerSet" />
+    </AssociationSet>
+    <AssociationSet Name="PostPayer" Association="WoWModel.Store.PostPayer">
+      <End Role="Post" EntitySet="PostSet" />
+      <End Role="Payer" EntitySet="CustomerSet_Payer" />
+    </AssociationSet>
+    <AssociationSet Name="PostConsumer" Association="WoWModel.Store.PostConsumer">
+      <End Role="Post" EntitySet="PostSet" />
+      <End Role="Consumer" EntitySet="CustomerSet_Consumer" />
+    </AssociationSet>
+    <AssociationSet Name="GroupPost" Association="WoWModel.Store.GroupPost">
+      <End Role="Group" EntitySet="GroupSet" />
+      <End Role="Post" EntitySet="PostSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Payer_inherits_Customer" Association="WoWModel.Store.FK_Payer_inherits_Customer">
+      <End Role="Customer" EntitySet="CustomerSet" />
+      <End Role="Payer" EntitySet="CustomerSet_Payer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Consumer_inherits_Customer" Association="WoWModel.Store.FK_Consumer_inherits_Customer">
+      <End Role="Customer" EntitySet="CustomerSet" />
+      <End Role="Consumer" EntitySet="CustomerSet_Consumer" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="PersonSet">
+    <Key>
+      <PropertyRef Name="PersonId" />
+    </Key>
+    <Property Name="PersonId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PersonGuid" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PasswordHash" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="PasswordSalt" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="FullName" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PostSet">
+    <Key>
+      <PropertyRef Name="PostId" />
+    </Key>
+    <Property Name="PostId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PostGuid" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TotalCost" Type="real" Nullable="false" />
+    <Property Name="ISO4217CurrencyCode" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Version" Type="int" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="Comment" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="GroupId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="GroupSet">
+    <Key>
+      <PropertyRef Name="GroupId" />
+    </Key>
+    <Property Name="GroupId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GroupGuid" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustomerSet">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Amount" Type="real" Nullable="false" />
+    <Property Name="RelativeAmountInPercentage" Type="int" Nullable="false" />
+    <Property Name="AmountIsSetManually" Type="bit" Nullable="false" />
+    <Property Name="PersonId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Version4">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustomerSet_Payer">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="PostId" Type="int" Nullable="false" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustomerSet_Consumer">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="PostId" Type="int" Nullable="false" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="PersonCustomer">
+    <End Role="Person" Type="WoWModel.Store.PersonSet" Multiplicity="1" />
+    <End Role="Customer" Type="WoWModel.Store.CustomerSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PersonId" />
+      </Principal>
+      <Dependent Role="Customer">
+        <PropertyRef Name="PersonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PostPayer">
+    <End Role="Post" Type="WoWModel.Store.PostSet" Multiplicity="1" />
+    <End Role="Payer" Type="WoWModel.Store.CustomerSet_Payer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="PostId" />
+      </Principal>
+      <Dependent Role="Payer">
+        <PropertyRef Name="PostId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PostConsumer">
+    <End Role="Post" Type="WoWModel.Store.PostSet" Multiplicity="1" />
+    <End Role="Consumer" Type="WoWModel.Store.CustomerSet_Consumer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="PostId" />
+      </Principal>
+      <Dependent Role="Consumer">
+        <PropertyRef Name="PostId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GroupPost">
+    <End Role="Group" Type="WoWModel.Store.GroupSet" Multiplicity="0..1" />
+    <End Role="Post" Type="WoWModel.Store.PostSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="GroupId" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="GroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Payer_inherits_Customer">
+    <End Role="Customer" Type="WoWModel.Store.CustomerSet" Multiplicity="1" />
+    <End Role="Payer" Type="WoWModel.Store.CustomerSet_Payer" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustomerId" />
+      </Principal>
+      <Dependent Role="Payer">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Consumer_inherits_Customer">
+    <End Role="Customer" Type="WoWModel.Store.CustomerSet" Multiplicity="1" />
+    <End Role="Consumer" Type="WoWModel.Store.CustomerSet_Consumer" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustomerId" />
+      </Principal>
+      <Dependent Role="Consumer">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="WoWModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="WoWModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PersonSet" EntityType="WoWModel.Person" />
+          <EntitySet Name="PostSet" EntityType="WoWModel.Post" />
+          <EntitySet Name="GroupSet" EntityType="WoWModel.Group" />
+          <EntitySet Name="CustomerSet" EntityType="WoWModel.Customer" />
+          <AssociationSet Name="PersonCustomer" Association="WoWModel.PersonCustomer">
+            <End Role="Person" EntitySet="PersonSet" />
+            <End Role="Customer" EntitySet="CustomerSet" />
+          </AssociationSet>
+          <EntitySet Name="Version4" EntityType="WoWModel.Version4" />
+          <AssociationSet Name="PostPayer" Association="WoWModel.PostPayer">
+            <End Role="Post" EntitySet="PostSet" />
+            <End Role="Payer" EntitySet="CustomerSet" />
+          </AssociationSet>
+          <AssociationSet Name="PostConsumer" Association="WoWModel.PostConsumer">
+            <End Role="Post" EntitySet="PostSet" />
+            <End Role="Consumer" EntitySet="CustomerSet" />
+          </AssociationSet>
+          <AssociationSet Name="GroupPost" Association="WoWModel.GroupPost">
+            <End Role="Group" EntitySet="GroupSet" />
+            <End Role="Post" EntitySet="PostSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="PersonId" />
+          </Key>
+          <Property Type="Int32" Name="PersonId" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Private" />
+          <Property Type="String" Name="UserName" Nullable="false" cg:SetterAccess="Private" />
+          <Property Type="Guid" Name="PersonGuid" Nullable="false" cg:SetterAccess="Private" />
+          <NavigationProperty Name="Customers" Relationship="WoWModel.PersonCustomer" FromRole="Person" ToRole="Customer" />
+          <Property Type="String" Name="PasswordHash" Nullable="false" MaxLength="255" cg:SetterAccess="Private" cg:GetterAccess="Private" />
+          <Property Type="String" Name="PasswordSalt" Nullable="false" cg:GetterAccess="Private" cg:SetterAccess="Private" MaxLength="255" />
+          <Property Type="String" Name="FullName" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="PostId" />
+          </Key>
+          <Property Type="Int32" Name="PostId" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Internal" />
+          <Property Type="Guid" Name="PostGuid" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" />
+          <Property Type="Single" Name="TotalCost" Nullable="false" cg:SetterAccess="Private" />
+          <Property Type="String" Name="ISO4217CurrencyCode" Nullable="false" />
+          <NavigationProperty Name="Payers" Relationship="WoWModel.PostPayer" FromRole="Post" ToRole="Payer" />
+          <NavigationProperty Name="Consumers" Relationship="WoWModel.PostConsumer" FromRole="Post" ToRole="Consumer" />
+          <Property Type="Int32" Name="Version" Nullable="false" cg:SetterAccess="Private" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="String" Name="Comment" Nullable="true" />
+          <NavigationProperty Name="Group" Relationship="WoWModel.GroupPost" FromRole="Post" ToRole="Group" cg:SetterAccess="Private" cg:GetterAccess="Public" />
+          <Property Type="Int32" Name="GroupId" Nullable="true" cg:SetterAccess="Private" cg:GetterAccess="Private" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Type="Int32" Name="GroupId" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Internal" />
+          <Property Type="Guid" Name="GroupGuid" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <NavigationProperty Name="Posts" Relationship="WoWModel.GroupPost" FromRole="Group" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="Consumer" BaseType="WoWModel.Customer">
+          <NavigationProperty Name="Post" Relationship="WoWModel.PostConsumer" FromRole="Consumer" ToRole="Post" />
+          <Property Type="Int32" Name="PostId" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Payer" BaseType="WoWModel.Customer">
+          <NavigationProperty Name="Post" Relationship="WoWModel.PostPayer" FromRole="Payer" ToRole="Post" />
+          <Property Type="Int32" Name="PostId" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer" Abstract="true">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Type="Int32" Name="CustomerId" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Internal" />
+          <Property Type="Single" Name="Amount" Nullable="false" />
+          <Property Type="Int32" Name="RelativeAmountInPercentage" Nullable="false" />
+          <Property Type="Boolean" Name="AmountIsSetManually" Nullable="false" />
+          <NavigationProperty Name="Person" Relationship="WoWModel.PersonCustomer" FromRole="Customer" ToRole="Person" />
+          <Property Type="Int32" Name="PersonId" Nullable="false" />
+        </EntityType>
+        <Association Name="PersonCustomer">
+          <End Type="WoWModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="WoWModel.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="PersonId" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Version4">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <Association Name="PostPayer">
+          <End Type="WoWModel.Post" Role="Post" Multiplicity="1" />
+          <End Type="WoWModel.Payer" Role="Payer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="PostId" />
+            </Principal>
+            <Dependent Role="Payer">
+              <PropertyRef Name="PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PostConsumer">
+          <End Type="WoWModel.Post" Role="Post" Multiplicity="1" />
+          <End Type="WoWModel.Consumer" Role="Consumer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="PostId" />
+            </Principal>
+            <Dependent Role="Consumer">
+              <PropertyRef Name="PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GroupPost">
+          <End Type="WoWModel.Group" Role="Group" Multiplicity="0..1" />
+          <End Type="WoWModel.Post" Role="Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="GroupId" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="WoWModelStoreContainer" CdmEntityContainer="WoWModelContainer">
+    <EntitySetMapping Name="PersonSet">
+      <EntityTypeMapping TypeName="IsTypeOf(WoWModel.Person)">
+        <MappingFragment StoreEntitySet="PersonSet">
+          <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="PersonGuid" ColumnName="PersonGuid" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PostSet">
+      <EntityTypeMapping TypeName="IsTypeOf(WoWModel.Post)">
+        <MappingFragment StoreEntitySet="PostSet">
+          <ScalarProperty Name="PostId" ColumnName="PostId" />
+          <ScalarProperty Name="PostGuid" ColumnName="PostGuid" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
+          <ScalarProperty Name="ISO4217CurrencyCode" ColumnName="ISO4217CurrencyCode" />
+          <ScalarProperty Name="Version" ColumnName="Version" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GroupSet">
+      <EntityTypeMapping TypeName="IsTypeOf(WoWModel.Group)">
+        <MappingFragment StoreEntitySet="GroupSet">
+          <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+          <ScalarProperty Name="GroupGuid" ColumnName="GroupGuid" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustomerSet">
+      <EntityTypeMapping TypeName="IsTypeOf(WoWModel.Customer)">
+        <MappingFragment StoreEntitySet="CustomerSet">
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="RelativeAmountInPercentage" ColumnName="RelativeAmountInPercentage" />
+          <ScalarProperty Name="AmountIsSetManually" ColumnName="AmountIsSetManually" />
+          <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(WoWModel.Payer)">
+        <MappingFragment StoreEntitySet="CustomerSet_Payer">
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="PostId" ColumnName="PostId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(WoWModel.Consumer)">
+        <MappingFragment StoreEntitySet="CustomerSet_Consumer">
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="PostId" ColumnName="PostId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Version4">
+      <EntityTypeMapping TypeName="IsTypeOf(WoWModel.Version4)">
+        <MappingFragment StoreEntitySet="Version4">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram Name="WoWModel" DisplayType="true" ZoomLevel="98" >
+        <EntityTypeShape EntityType="WoWModel.Person" Width="2" PointX="0.625" PointY="0.875" Height="1.9802864583333339" />
+        <EntityTypeShape EntityType="WoWModel.Post" Width="2.75" PointX="9.625" PointY="0.5" Height="3.1340950520833335" />
+        <EntityTypeShape EntityType="WoWModel.Group" Width="1.875" PointX="10.75" PointY="6.375" Height="1.9802864583333335" />
+        <EntityTypeShape EntityType="WoWModel.Consumer" Width="3.125" PointX="5.625" PointY="7.5" Height="1.0187792968749996" />
+        <EntityTypeShape EntityType="WoWModel.Payer" Width="2.625" PointX="5.75" PointY="2.25" Height="1.018779296875" />
+        <EntityTypeShape EntityType="WoWModel.Customer" Width="3.125" PointX="1.125" PointY="5" Height="2.1725878906249996" />
+        <AssociationConnector Association="WoWModel.PersonCustomer">
+          <ConnectorPoint PointX="1.875" PointY="2.8552864583333339" />
+          <ConnectorPoint PointX="1.875" PointY="5" />
+        </AssociationConnector>
+        <InheritanceConnector EntityType="WoWModel.Consumer" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.6875" PointY="7.172587890625" />
+          <ConnectorPoint PointX="2.6875" PointY="7.422587890625" />
+          <ConnectorPoint PointX="4.5" PointY="7.422587890625" />
+          <ConnectorPoint PointX="4.5" PointY="7.125" />
+          <ConnectorPoint PointX="7.1875" PointY="7.125" />
+          <ConnectorPoint PointX="7.1875" PointY="7.5" />
+        </InheritanceConnector>
+        <InheritanceConnector EntityType="WoWModel.Payer">
+          <ConnectorPoint PointX="2.6875" PointY="5" />
+          <ConnectorPoint PointX="2.6875" PointY="4.625" />
+          <ConnectorPoint PointX="7.0625" PointY="4.625" />
+          <ConnectorPoint PointX="7.0625" PointY="3.268779296875" />
+        </InheritanceConnector>
+        <EntityTypeShape EntityType="WoWModel.Version4" Width="1.5" PointX="3.5" PointY="0.5" Height="1.211080729166667" />
+        <AssociationConnector Association="WoWModel.PostPayer">
+          <ConnectorPoint PointX="9.625" PointY="2.9420475260416667" />
+          <ConnectorPoint PointX="8.375" PointY="2.9420475260416667" />
+        </AssociationConnector>
+        <AssociationConnector Association="WoWModel.PostConsumer">
+          <ConnectorPoint PointX="10.15625" PointY="3.6340950520833335" />
+          <ConnectorPoint PointX="10.15625" PointY="8.56443359375" />
+          <ConnectorPoint PointX="8.75" PointY="8.56443359375" />
+        </AssociationConnector>
+        <AssociationConnector Association="WoWModel.GroupPost">
+          <ConnectorPoint PointX="11.5625" PointY="6.375" />
+          <ConnectorPoint PointX="11.5625" PointY="4.0186979166666665" />
+        </AssociationConnector>
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

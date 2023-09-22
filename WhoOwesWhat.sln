@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhoOwesWhat.Web", "WhoOwesWhat.Web\WhoOwesWhat.Web.csproj", "{0CAF8963-B4B5-43DB-AA0D-BD199F01053B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhoOwesWhat.Tests", "WhoOwesWhat.Tests\WhoOwesWhat.Tests.csproj", "{7751476F-5AA9-421A-BF35-BC1B1C801438}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhoOwesWhat.Domain", "WhoOwesWhat.Data\WhoOwesWhat.Domain.csproj", "{70858D87-9F8C-4D5E-800D-2DBD10000539}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://vuqtfs001:8080/tfs/theuniquecollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = WhoOwesWhat.Tests\\WhoOwesWhat.Tests.csproj
+		SccProjectName1 = WhoOwesWhat.Tests
+		SccLocalPath1 = WhoOwesWhat.Tests
+		SccProjectUniqueName2 = WhoOwesWhat.Web\\WhoOwesWhat.Web.csproj
+		SccProjectName2 = WhoOwesWhat.Web
+		SccLocalPath2 = WhoOwesWhat.Web
+		SccProjectUniqueName3 = WhoOwesWhat.Data\\WhoOwesWhat.Domain.csproj
+		SccProjectName3 = WhoOwesWhat.Data
+		SccLocalPath3 = WhoOwesWhat.Data
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0CAF8963-B4B5-43DB-AA0D-BD199F01053B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CAF8963-B4B5-43DB-AA0D-BD199F01053B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CAF8963-B4B5-43DB-AA0D-BD199F01053B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CAF8963-B4B5-43DB-AA0D-BD199F01053B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7751476F-5AA9-421A-BF35-BC1B1C801438}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7751476F-5AA9-421A-BF35-BC1B1C801438}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7751476F-5AA9-421A-BF35-BC1B1C801438}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7751476F-5AA9-421A-BF35-BC1B1C801438}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70858D87-9F8C-4D5E-800D-2DBD10000539}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70858D87-9F8C-4D5E-800D-2DBD10000539}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70858D87-9F8C-4D5E-800D-2DBD10000539}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70858D87-9F8C-4D5E-800D-2DBD10000539}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
